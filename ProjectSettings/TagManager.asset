@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Ground
+  - Player1
+  - Player2
+  - Platform
+  - LuckyBlock
+  - Brick
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Ground
+  - Player1
+  - Player2
+  - Platform
+  - LuckyBlock
+  - Brick
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2443395317
+    locked: 0
+  - name: Platform
+    uniqueID: 3358614663
+    locked: 0
+  - name: Brick
+    uniqueID: 2698684511
+    locked: 0
+  - name: Ground
+    uniqueID: 1494242841
+    locked: 0
+  - name: Player1
+    uniqueID: 26534979
+    locked: 0
+  - name: Player2
+    uniqueID: 4032314217
+    locked: 0
+  - name: LuckyBlock
+    uniqueID: 1525912041
+    locked: 0
+  m_RenderingLayers:
+  - Default
