@@ -3,17 +3,19 @@
 public class CameraFollow : MonoBehaviour
 {
     public Transform player1;
-    public Transform player2; // Player 2 sẽ xuất hiện sau
-    public bool isPlayer2Active = false; // Ban đầu P2 chưa có
+    public Transform player2;
+    public bool isPlayer2Active = false;
 
     [Header("Camera Settings")]
-    public float smoothSpeed = 5f; // Tốc độ di chuyển mượt mà
-    public float minZoom = 5f; // Zoom gần nhất
-    public float maxZoom = 10f; // Zoom xa nhất
-    public float zoomLimiter = 5f; // Giới hạn zoom
+    public float smoothSpeed = 5f;
+    public float minZoom = 5f;
+    public float maxZoom = 10f;
+    public float zoomLimiter = 5f;
+    public float zoomInDistance = 3f; // Khoảng cách để bắt đầu zoom in
+    public float zoomOutDistance = 6f; // Khoảng cách để bắt đầu zoom out
 
     [Header("Camera Bounds")]
-    public BoxCollider2D cameraBounds; // BoxCollider2D để xác định giới hạn
+    public BoxCollider2D cameraBounds;
 
     private Camera cam;
 
@@ -24,18 +26,35 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!isPlayer2Active || player2 == null)
+        if (player1 != null && (player2 == null || !isPlayer2Active))
         {
-            Vector3 targetPos = player1.position;
-            targetPos.z = transform.position.z;
-            transform.position = Vector3.Lerp(transform.position, targetPos, smoothSpeed * Time.deltaTime);
+            // Nếu chỉ có Player 1, camera luôn theo dõi Player 1
+            FollowSinglePlayer(player1);
         }
-        else
+        else if (player1 == null && player2 != null)
         {
+            // Nếu Player 1 bị hủy, camera chuyển sang Player 2
+            FollowSinglePlayer(player2);
+        }
+        else if (isPlayer2Active && player1 != null && player2 != null)
+        {
+            // Nếu cả hai Player còn tồn tại, camera sẽ theo dõi cả hai
             FollowBothPlayers();
         }
 
         ClampCameraPosition();
+    }
+
+    void FollowSinglePlayer(Transform targetPlayer)
+    {
+        if (targetPlayer == null) return;
+
+        Vector3 targetPos = targetPlayer.position;
+        targetPos.z = transform.position.z;
+        transform.position = Vector3.Lerp(transform.position, targetPos, smoothSpeed * Time.deltaTime);
+
+        // Khi chỉ còn 1 Player, camera sẽ zoom in về mức minZoom
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, minZoom, Time.deltaTime * smoothSpeed);
     }
 
     void FollowBothPlayers()
@@ -43,17 +62,38 @@ public class CameraFollow : MonoBehaviour
         Vector3 middlePoint = (player1.position + player2.position) / 2f;
         middlePoint.z = transform.position.z;
 
-        transform.position = Vector3.Lerp(transform.position, middlePoint, smoothSpeed * Time.deltaTime);
-
         float distance = Vector2.Distance(player1.position, player2.position);
-        float newZoom = Mathf.Lerp(maxZoom, minZoom, distance / zoomLimiter);
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, newZoom, Time.deltaTime * smoothSpeed);
+
+        // Xác định mức zoom dựa trên khoảng cách
+        float targetZoom = cam.orthographicSize;
+
+        if (distance <= zoomInDistance)
+        {
+            // Nếu hai người chơi gần nhau, zoom in về mức minZoom
+            targetZoom = minZoom;
+        }
+        else if (distance >= zoomOutDistance)
+        {
+            // Nếu hai người chơi xa nhau, zoom out về mức maxZoom
+            targetZoom = maxZoom;
+        }
+        else
+        {
+            // Nếu khoảng cách nằm giữa zoomInDistance và zoomOutDistance, tính toán mức zoom trung gian
+            float t = (distance - zoomInDistance) / (zoomOutDistance - zoomInDistance);
+            targetZoom = Mathf.Lerp(minZoom, maxZoom, t);
+        }
+
+        // Áp dụng mức zoom mới
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * smoothSpeed);
+
+        // Di chuyển camera đến vị trí giữa 2 người chơi
+        transform.position = Vector3.Lerp(transform.position, middlePoint, smoothSpeed * Time.deltaTime);
     }
 
     void ClampCameraPosition()
     {
-        if (cameraBounds == null)
-            return;
+        if (cameraBounds == null) return;
 
         float camHeight = cam.orthographicSize;
         float camWidth = camHeight * cam.aspect;

@@ -104,9 +104,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer1: 0
-  moveSpeed: 8
-  acceleration: 20
-  deceleration: 19
+  moveSpeed: 7
+  acceleration: 19
+  deceleration: 17
   sprintMultiplier: 1.5
   jumpForce: 16
   sprintJumpMultiplier: 1.3

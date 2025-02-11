@@ -23,7 +23,7 @@ TagManager:
   - Platform
   - LuckyBlock
   - Brick
-  - 
+  - Enemies
   - 
   - 
   - 
@@ -67,6 +67,9 @@ TagManager:
     locked: 0
   - name: LuckyBlock
     uniqueID: 1525912041
+    locked: 0
+  - name: Enemies
+    uniqueID: 3105845725
     locked: 0
   m_RenderingLayers:
   - Default
