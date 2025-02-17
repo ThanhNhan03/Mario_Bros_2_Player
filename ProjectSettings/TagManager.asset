@@ -10,6 +10,8 @@ TagManager:
   - Platform
   - LuckyBlock
   - Brick
+  - Enemy
+  - Weak Point
   layers:
   - Default
   - TransparentFX

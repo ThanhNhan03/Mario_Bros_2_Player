@@ -2,15 +2,15 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    public bool isPlayer1; // Xác định Player 1 hay Player 2
+    public bool isPlayer1;
 
     [Header("Movement Settings")]
     public float moveSpeed = 8f;
     public float acceleration = 12f;
     public float deceleration = 10f;
-    public float sprintMultiplier = 1.5f; // Tăng tốc khi chạy
-    public float jumpForce = 16f; // Lực nhảy cơ bản
-    public float sprintJumpMultiplier = 1.3f; // Hệ số tăng lực nhảy khi chạy nhanh
+    public float sprintMultiplier = 1.5f;
+    public float jumpForce = 16f;
+    public float sprintJumpMultiplier = 1.3f;
     public float gravityScale = 5f;
     public LayerMask groundLayer;
 
@@ -60,16 +60,13 @@ public class PlayerMovement : MonoBehaviour
     {
         float finalSpeed = moveSpeed * (isSprinting ? sprintMultiplier : 1f);
 
-        // Tăng tốc độ mượt mà
         if (moveDirection != 0)
             velocityX = Mathf.MoveTowards(velocityX, finalSpeed * moveDirection, acceleration * Time.fixedDeltaTime);
         else
             velocityX = Mathf.MoveTowards(velocityX, 0, deceleration * Time.fixedDeltaTime);
 
-        // Cập nhật tốc độ ngang
         rb.linearVelocity = new Vector2(velocityX, rb.linearVelocity.y);
 
-        // Nhảy
         if (isJumping)
         {
             float jumpPower = isSprinting ? jumpForce * sprintJumpMultiplier : jumpForce;
@@ -120,5 +117,10 @@ public class PlayerMovement : MonoBehaviour
                 animator.speed = 1.0f;
             }
         }
+    }
+
+    public void Bounce()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 0.7f);
     }
 }

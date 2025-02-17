@@ -1,26 +1,30 @@
 ﻿using UnityEngine;
 
-public class GoobasMovment : MonoBehaviour
+public class GoobasMovement : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 1f;
     [SerializeField] float groundCheckDistance = 1f;
     [SerializeField] LayerMask groundLayer;
-    Rigidbody2D rigidbody2d;
+    [SerializeField] float timeToDie = 0.5f;
+
+    private Rigidbody2D rb;
+    private Animator animator;
+    private bool isDead = false;
 
     void Start()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        if (isDead) return;
 
-        rigidbody2d.linearVelocity = new Vector2(moveSpeed, rigidbody2d.linearVelocity.y);
-
+        rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
 
         if (!IsGroundInFront())
         {
-
             moveSpeed = -moveSpeed;
             FlipEnemyFacing();
         }
@@ -28,14 +32,15 @@ public class GoobasMovment : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        moveSpeed = -moveSpeed;
-        FlipEnemyFacing();
+        if (!isDead)
+        {
+            moveSpeed = -moveSpeed;
+            FlipEnemyFacing();
+        }
     }
 
     void FlipEnemyFacing()
     {
-
         Vector3 newScale = transform.localScale;
         newScale.x = Mathf.Abs(newScale.x) * Mathf.Sign(moveSpeed);
         transform.localScale = newScale;
@@ -43,14 +48,40 @@ public class GoobasMovment : MonoBehaviour
 
     bool IsGroundInFront()
     {
-
         Vector2 origin = new Vector2(transform.position.x + Mathf.Sign(moveSpeed) * 0.5f, transform.position.y);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayer);
 
-
         Debug.DrawRay(origin, Vector2.down * groundCheckDistance, Color.red);
-
 
         return hit.collider != null;
     }
+
+    public void Die()
+    {
+        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D col in colliders)
+        {
+            col.enabled = false;
+        }
+
+        // Dừng chuyển động của enemy (đặt tốc độ về 0)
+        rb.linearVelocity = Vector2.zero;
+
+     
+        rb.isKinematic = true;
+        rb.simulated = false;
+
+        // Đặt enemy xuống sát mặt đất
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.1f, transform.position.z);
+
+        // Chơi animation chết
+        animator.SetTrigger("Die");
+
+        // Hủy enemy sau thời gian delay
+        Destroy(gameObject, timeToDie);
+    }
+
+
+
+
 }
