@@ -12,6 +12,7 @@ TagManager:
   - Brick
   - Enemy
   - Weak Point
+  - GameManager
   layers:
   - Default
   - TransparentFX
