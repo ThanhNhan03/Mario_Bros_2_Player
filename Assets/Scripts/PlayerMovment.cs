@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public float sprintJumpMultiplier = 1.3f;
     public float gravityScale = 5f;
     public LayerMask groundLayer;
+    public AudioClip jumpSFX;
+
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -22,12 +24,15 @@ public class PlayerMovement : MonoBehaviour
     private float velocityX = 0f;
     private bool isSprinting = false;
     private bool facingRight = true;
+    private AudioSource audioSource;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = gravityScale;
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -71,6 +76,11 @@ public class PlayerMovement : MonoBehaviour
         {
             float jumpPower = isSprinting ? jumpForce * sprintJumpMultiplier : jumpForce;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+
+            if (jumpSFX != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(jumpSFX);
+            }
             isJumping = false;
         }
     }
