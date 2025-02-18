@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fa06dd04ea431a847852e5bdb4d3be17
+guid: 504d027a59f4b45f596e26fff488eddd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9143868440440847147
-    second: gear_0
+      213: 250503700862917676
+    second: Dong_Vang_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gear_0
+      name: Dong_Vang_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 0
-        width: 250
-        height: 256
+        x: 31
+        y: 31
+        width: 66
+        height: 66
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b2bb16976eb85ee70800000000000000
-      internalID: 9143868440440847147
+      spriteID: c2cdad8e9c7f97300800000000000000
+      internalID: 250503700862917676
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      gear_0: 9143868440440847147
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

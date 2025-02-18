@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 189280379380882010}
   - component: {fileID: 2694559504239804779}
   - component: {fileID: 828901382486075277}
+  - component: {fileID: 8289277205458587298}
   m_Layer: 12
   m_Name: Goombas
   m_TagString: Weak Point
@@ -136,6 +137,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  timeToDie: 0.5
 --- !u!70 &2694559504239804779
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -170,8 +172,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.022707263, y: 0.01640943}
-  m_Size: {x: 0.9887548, y: 0.9930899}
+  m_Offset: {x: -0.022707261, y: -0.024568867}
+  m_Size: {x: 0.99309, y: 0.91113335}
   m_Direction: 1
 --- !u!95 &828901382486075277
 Animator:
@@ -195,6 +197,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8289277205458587298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314181028508456950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f2da64ef9b346c5ba3c81ee16f7c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logic: {fileID: 0}
 --- !u!1 &5477431041054989203
 GameObject:
   m_ObjectHideFlags: 0

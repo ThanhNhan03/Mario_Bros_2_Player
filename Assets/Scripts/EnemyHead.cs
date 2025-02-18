@@ -8,7 +8,7 @@ public class EnemyHead : MonoBehaviour
     void Start()
     {
         enemy = GetComponentInParent<GoobasMovement>();
-        enemyHeadCollider = GetComponent<Collider2D>(); 
+        enemyHeadCollider = GetComponent<Collider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -18,8 +18,8 @@ public class EnemyHead : MonoBehaviour
             PlayerMovement player = collision.GetComponent<PlayerMovement>();
             if (player != null)
             {
-                player.Bounce(); 
-                enemy.Die(); 
+                player.Bounce();
+                enemy.Die();
                 DisableHeadCollider();
             }
         }
