@@ -1,36 +1,76 @@
-﻿using UnityEngine;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject player2Prefab; // Prefab Player 2
-    public Transform spawnPoint2;    // Vị trí spawn P2
-    private GameObject player1;
-    private GameObject player2;
-    private CameraFollow cameraFollow;
+    public int playerScore;
+    public int playerHealth = 3; // Máu ban đầu của nhân vật
+    public Text textScore;
+    public Text textHealth;
+
+    private Vector3 lastCheckpoint;   // Checkpoint toàn game
+    private Vector3 lastSafePosition; // Vị trí an toàn gần vực
 
     void Start()
     {
-        player1 = GameObject.FindGameObjectWithTag("Player1"); 
-        cameraFollow = Camera.main.GetComponent<CameraFollow>(); 
+        GameObject checkpoint = GameObject.FindGameObjectWithTag("Respawn");
+        if (checkpoint != null)
+        {
+            lastCheckpoint = checkpoint.transform.position;
+            lastSafePosition = lastCheckpoint; // Ban đầu đặt giống checkpoint
+        }
+
+        //UpdateUI();
     }
 
-    void Update()
+    public void addScore(int score)
     {
-        // Nếu P2 chưa tham gia, nhấn Enter hoặc Keypad0 để Spawn P2
-        if (player2 == null && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Keypad0)))
+        playerScore += score;
+        //UpdateUI();
+    }
+
+    public void reduceHealth(int damage)
+    {
+        playerHealth -= damage;
+        //UpdateUI();
+
+        if (playerHealth <= 0)
         {
-            SpawnPlayer2();
+            Debug.Log("Game Over! Restarting...");
+            RestartGame();
         }
     }
-    void SpawnPlayer2()
+
+    public void RespawnPlayer(GameObject player)
     {
-        if (player1 == null) return; // Đảm bảo player1 tồn tại
+        reduceHealth(1); // Trừ 1 máu khi rơi xuống vực
 
-        // Spawn Player 2 tại vị trí hiện tại của Player 1
-        player2 = Instantiate(player2Prefab, player1.transform.position, Quaternion.identity);
-        player2.GetComponent<PlayerMovement>().isPlayer1 = false; // Đánh dấu là P2
-
-        cameraFollow.ActivatePlayer2(player2.transform);
+        if (playerHealth > 0)
+        {
+            player.transform.position = lastSafePosition; // Quay về vị trí gần vực nếu còn máu
+        }
     }
 
+    public void SetCheckpoint(Vector3 newCheckpoint)
+    {
+        lastCheckpoint = newCheckpoint;
+        lastSafePosition = newCheckpoint; // Cập nhật vị trí an toàn gần vực
+    }
+
+    public void UpdateSafePosition(Vector3 newSafePosition)
+    {
+        lastSafePosition = newSafePosition; // Cập nhật vị trí an toàn gần vực
+    }
+
+    void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    //void UpdateUI()
+    //{
+    //    textScore.text = "Score: " + playerScore.ToString();
+    //    textHealth.text = "HP: " + playerHealth.ToString();
+    //}
 }

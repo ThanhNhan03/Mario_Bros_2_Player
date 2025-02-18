@@ -1,29 +1,17 @@
-using UnityEngine;
+﻿//using UnityEngine;
 
-public class EnemyDamage : MonoBehaviour
-{
-    public LogicCode logic;
+//public class EnemyDamage : MonoBehaviour
+//{
+//    public PlayerHealth playerHealth;
+//    public int damage = 1;
 
-    void Start()
-    {
-        logic = GameObject.FindGameObjectWithTag("GameManager").GetComponent<LogicCode>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player1") || collision.CompareTag("Player2"))
-        {
-            // Lấy vị trí va chạm
-            Vector3 playerPosition = collision.transform.position;
-            Vector3 enemyPosition = transform.position;
-
-            // Nếu nhân vật chạm vào từ phía trên (jump kill) thì không trừ máu
-            if (playerPosition.y > enemyPosition.y + 0.2f) // Thêm độ lệch 0.2 để tránh sai số nhỏ
-            {
-                return;
-            }
-
-            logic.reduceHealth(1); // Trừ 1 máu
-        }
-    }
-}
+//    void OnCollisionEnter2D(Collision2D collision)
+//    {
+//        if (collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player2"))
+//        {
+            
+//                playerHealth.TakeDamage(damage);
+          
+//        }
+//    }
+//}

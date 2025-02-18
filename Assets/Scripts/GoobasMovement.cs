@@ -6,15 +6,19 @@ public class GoobasMovement : MonoBehaviour
     [SerializeField] float groundCheckDistance = 1f;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float timeToDie = 0.5f;
+    [SerializeField] AudioClip DieSFX;
+
 
     private Rigidbody2D rb;
     private Animator animator;
     private bool isDead = false;
+    private AudioSource audioSource;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -67,15 +71,24 @@ public class GoobasMovement : MonoBehaviour
         // Dừng chuyển động của enemy (đặt tốc độ về 0)
         rb.linearVelocity = Vector2.zero;
 
-     
-        rb.isKinematic = true;
+
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
         rb.simulated = false;
+
+        
 
         // Đặt enemy xuống sát mặt đất
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.1f, transform.position.z);
 
         // Chơi animation chết
         animator.SetTrigger("Die");
+
+        if (DieSFX != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(DieSFX);
+        }
+     
 
         // Hủy enemy sau thời gian delay
         Destroy(gameObject, timeToDie);

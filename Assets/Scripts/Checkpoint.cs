@@ -6,7 +6,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.CompareTag("Player1") || collision.CompareTag("Player2"))
         {
-            LogicCode logic = GameObject.FindGameObjectWithTag("GameManager").GetComponent<LogicCode>();
+            GameManager logic = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
             logic.SetCheckpoint(transform.position); // Lưu vị trí checkpoint mới
         }
     }

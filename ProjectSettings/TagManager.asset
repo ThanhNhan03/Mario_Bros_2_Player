@@ -13,6 +13,8 @@ TagManager:
   - Enemy
   - Weak Point
   - GameManager
+  - Player1Foot
+  - Player2Foot
   layers:
   - Default
   - TransparentFX

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class FallDetector : MonoBehaviour
 {
-    private LogicCode logic;
+    private GameManager logic;
 
     void Start()
     {
-        logic = GameObject.FindGameObjectWithTag("GameManager").GetComponent<LogicCode>();
+        logic = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

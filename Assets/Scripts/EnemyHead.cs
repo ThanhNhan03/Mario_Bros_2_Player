@@ -13,9 +13,9 @@ public class EnemyHead : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player1") || collision.CompareTag("Player2"))
+        if (collision.CompareTag("Player1Foot") || collision.CompareTag("Player2Foot")) 
         {
-            PlayerMovement player = collision.GetComponent<PlayerMovement>();
+            PlayerMovement player = collision.GetComponentInParent<PlayerMovement>();
             if (player != null)
             {
                 player.Bounce();
@@ -24,6 +24,7 @@ public class EnemyHead : MonoBehaviour
             }
         }
     }
+
 
 
     private void DisableHeadCollider()
