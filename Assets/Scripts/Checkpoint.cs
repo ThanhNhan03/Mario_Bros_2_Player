@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.CompareTag("Player1") || collision.CompareTag("Player2"))
+        if (other.CompareTag("Player1"))
         {
-            GameManager logic = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-            logic.SetCheckpoint(transform.position); // Lưu vị trí checkpoint mới
+            CheckpointSystem checkpointSystem = other.GetComponent<CheckpointSystem>();
+            if (checkpointSystem != null)
+            {
+                checkpointSystem.SetCheckpoint(transform.position);
+                Debug.Log("Checkpoint reached at: " + transform.position);
+            }
         }
     }
 }

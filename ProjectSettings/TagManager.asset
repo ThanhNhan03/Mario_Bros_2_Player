@@ -15,6 +15,7 @@ TagManager:
   - GameManager
   - Player1Foot
   - Player2Foot
+  - KillZone
   layers:
   - Default
   - TransparentFX
