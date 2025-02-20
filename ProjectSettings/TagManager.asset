@@ -10,6 +10,12 @@ TagManager:
   - Platform
   - LuckyBlock
   - Brick
+  - Enemy
+  - Weak Point
+  - GameManager
+  - Player1Foot
+  - Player2Foot
+  - KillZone
   layers:
   - Default
   - TransparentFX
