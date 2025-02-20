@@ -4,6 +4,7 @@ public class EnemyHead : MonoBehaviour
 {
     private GoobasMovement enemy;
     private Collider2D enemyHeadCollider;
+    [SerializeField] private int scoreValue = 100;
 
     void Start()
     {
@@ -21,6 +22,9 @@ public class EnemyHead : MonoBehaviour
                 player.Bounce();
                 enemy.Die();
                 DisableHeadCollider();
+
+                // Cộng điểm cho player khi giết enemy
+                GameManager.instance.AddScore(player.gameObject, scoreValue);
             }
         }
     }
