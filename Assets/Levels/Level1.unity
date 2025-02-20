@@ -10109,7 +10109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScore: 0
-  playerHealth: 10
+  playerHealth: 3
   textScore: {fileID: 0}
   textHealth: {fileID: 0}
 --- !u!4 &2093266697 stripped

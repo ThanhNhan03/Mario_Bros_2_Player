@@ -41,20 +41,29 @@ public class PlayerMovement : MonoBehaviour
         KeyCode rightKey = isPlayer1 ? KeyCode.D : KeyCode.RightArrow;
         KeyCode jumpKey = isPlayer1 ? KeyCode.J : KeyCode.Keypad1;
         KeyCode sprintKey = isPlayer1 ? KeyCode.K : KeyCode.Keypad2;
+        KeyCode jumpKey1 = isPlayer1 ? KeyCode.None : KeyCode.N;
+        KeyCode sprintKey1 = isPlayer1 ? KeyCode.None : KeyCode.M;
+
 
         // Xác định hướng di chuyển
         if (Input.GetKey(leftKey)) moveDirection = -1f;
         else if (Input.GetKey(rightKey)) moveDirection = 1f;
         else moveDirection = 0f;
 
+
         // Kiểm tra giữ nút chạy nhanh
-        isSprinting = Input.GetKey(sprintKey);
+        isSprinting = Input.GetKey(sprintKey) || (sprintKey1 != KeyCode.None && Input.GetKey(sprintKey1));
+
+
+
 
         // Kiểm tra nhảy
-        if (Input.GetKeyDown(jumpKey) && isGrounded)
+        if ((Input.GetKeyDown(jumpKey) || (jumpKey1 != KeyCode.None && Input.GetKeyDown(jumpKey1))) && isGrounded)
         {
             isJumping = true;
         }
+
+
 
         CheckGround();
         FlipCharacter();
