@@ -3,6 +3,7 @@
 public class PlayerMovement : MonoBehaviour
 {
     public bool isPlayer1;
+   
 
     [Header("Movement Settings")]
     public float moveSpeed = 8f;

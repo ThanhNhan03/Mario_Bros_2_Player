@@ -76,7 +76,7 @@ public class GoobasMovement : MonoBehaviour
 
         rb.simulated = false;
 
-        
+
 
         // Đặt enemy xuống sát mặt đất
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.1f, transform.position.z);
@@ -88,7 +88,7 @@ public class GoobasMovement : MonoBehaviour
         {
             audioSource.PlayOneShot(DieSFX);
         }
-     
+
 
         // Hủy enemy sau thời gian delay
         Destroy(gameObject, timeToDie);

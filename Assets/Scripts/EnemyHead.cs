@@ -13,7 +13,7 @@ public class EnemyHead : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player1Foot") || collision.CompareTag("Player2Foot")) 
+        if (collision.CompareTag("Player1Foot") || collision.CompareTag("Player2Foot"))
         {
             PlayerMovement player = collision.GetComponentInParent<PlayerMovement>();
             if (player != null)

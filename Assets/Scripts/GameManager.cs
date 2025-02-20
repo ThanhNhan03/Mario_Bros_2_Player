@@ -1,76 +1,63 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public int playerScore;
-    public int playerHealth = 3; // Máu ban đầu của nhân vật
-    public Text textScore;
-    public Text textHealth;
+    public static GameManager instance;
 
-    private Vector3 lastCheckpoint;   // Checkpoint toàn game
-    private Vector3 lastSafePosition; // Vị trí an toàn gần vực
+    public int player1Score = 0;
+    public int player2Score = 0;
 
-    void Start()
+    public Text player1ScoreText;
+    public Text player2ScoreText;
+
+    private GameObject player2;
+
+    void Awake()
     {
-        GameObject checkpoint = GameObject.FindGameObjectWithTag("Respawn");
-        if (checkpoint != null)
+        if (instance == null)
         {
-            lastCheckpoint = checkpoint.transform.position;
-            lastSafePosition = lastCheckpoint; // Ban đầu đặt giống checkpoint
+            instance = this;
+            //DontDestroyOnLoad(gameObject); // Giữ lại GameManager khi chuyển Scene
         }
-
-        //UpdateUI();
+        //else
+        //{
+        //    Destroy(gameObject); // Nếu đã có GameManager khác, hủy bỏ
+        //}
     }
 
-    public void addScore(int score)
+    void Update()
     {
-        playerScore += score;
-        //UpdateUI();
-    }
+        // Cập nhật Player2 mỗi frame để kiểm tra sự tồn tại
+        player2 = GameObject.FindWithTag("Player2");
 
-    public void reduceHealth(int damage)
-    {
-        playerHealth -= damage;
-        //UpdateUI();
+        // Cập nhật UI Player1
+        player1ScoreText.text = "Player 1: " + player1Score;
 
-        if (playerHealth <= 0)
+        // Nếu Player2 tồn tại, hiển thị điểm số
+        if (player2 != null)
         {
-            Debug.Log("Game Over! Restarting...");
-            RestartGame();
+            player2ScoreText.text = "Player 2: " + player2Score;
+            player2ScoreText.gameObject.SetActive(true);
         }
-    }
-
-    public void RespawnPlayer(GameObject player)
-    {
-        reduceHealth(1); // Trừ 1 máu khi rơi xuống vực
-
-        if (playerHealth > 0)
+        else
         {
-            player.transform.position = lastSafePosition; // Quay về vị trí gần vực nếu còn máu
+            player2ScoreText.gameObject.SetActive(false);
         }
     }
 
-    public void SetCheckpoint(Vector3 newCheckpoint)
+    // Hàm cộng điểm chính xác cho Player1 hoặc Player2
+    public void AddScore(GameObject player, int points)
     {
-        lastCheckpoint = newCheckpoint;
-        lastSafePosition = newCheckpoint; // Cập nhật vị trí an toàn gần vực
+        if (player.CompareTag("Player1"))
+        {
+            player1Score += points;
+            player1ScoreText.text = "Player 1: " + player1Score;
+        }
+        else if (player.CompareTag("Player2"))
+        {
+            player2Score += points;
+            player2ScoreText.text = "Player 2: " + player2Score;
+        }
     }
-
-    public void UpdateSafePosition(Vector3 newSafePosition)
-    {
-        lastSafePosition = newSafePosition; // Cập nhật vị trí an toàn gần vực
-    }
-
-    void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    //void UpdateUI()
-    //{
-    //    textScore.text = "Score: " + playerScore.ToString();
-    //    textHealth.text = "HP: " + playerHealth.ToString();
-    //}
 }
