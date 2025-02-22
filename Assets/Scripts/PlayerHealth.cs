@@ -6,30 +6,37 @@ public class PlayerHealth : MonoBehaviour
     public int health = 3;
     public float invincibleTime = 1.5f;
     private bool isInvincible = false;
+    private bool hasPowerUp = false; // Trạng thái có Power-Up hay không
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-    private CheckpointSystem checkpointSystem; 
+    private CheckpointSystem checkpointSystem;
+    private PowerUpController powerUpController;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         checkpointSystem = GetComponent<CheckpointSystem>();
+        powerUpController = GetComponent<PowerUpController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isInvincible && collision.CompareTag("Enemy") && collision is CapsuleCollider2D)
+        if (collision.CompareTag("Enemy") && collision is CapsuleCollider2D)
         {
-            Debug.Log("Player attacked");
-            TakeDamage();
+            if (hasPowerUp)
+            {
+                Debug.Log("Power-Up lost, entering invincible state");
+                hasPowerUp = false;
+                powerUpController.DeactivatePowerUp(); // Tắt Power-Up
+                StartCoroutine(BecomeInvincible()); // Bật Invincible khi mất Power-Up
+            }
+            else if (!isInvincible)
+            {
+                Debug.Log("Player attacked");
+                TakeDamage();
+            }
         }
-        //else if (collision.CompareTag("KillZone"))
-        //{
-        //    Debug.Log("Player fell into KillZone");
-        //    TakeDamage();
-        //    Respawn();
-        //}
     }
 
     public void TakeDamage()
@@ -63,21 +70,25 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player died");
-        //Respawn(); // Gọi Respawn thay vì hủy nhân vật
-
-        //dang cap nhap logic cho die
+        // Respawn(); // Thêm logic chết hoặc hiệu ứng nếu cần
     }
 
     public void Respawn()
     {
         if (checkpointSystem != null)
         {
-            transform.position = checkpointSystem.GetCheckpointPosition(); // Hồi sinh tại checkpoint gần nhất
+            transform.position = checkpointSystem.GetCheckpointPosition();
             Debug.Log("Player respawned at checkpoint");
         }
         else
         {
             Debug.Log("No checkpoint set, respawning at default position");
         }
+    }
+
+    public void SetInvincible(bool value)
+    {
+        isInvincible = value;
+        hasPowerUp = value;
     }
 }
