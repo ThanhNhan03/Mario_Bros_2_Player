@@ -2,19 +2,15 @@ using UnityEngine;
 
 public class CoinScore : MonoBehaviour
 {
-    public GameManager logic;
+    private bool isCollected = false; // Biến kiểm tra coin đã bị nhặt hay chưa
 
-    void Start()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        logic = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player1") || collision.CompareTag("Player2")) // Kiểm tra nếu nhân vật chạm vào
+        if (!isCollected && (other.CompareTag("Player1") || other.CompareTag("Player2")))
         {
-            logic.addScore(1);  // Tăng điểm số
-            Destroy(gameObject); // Xóa vật thể (coin)
+            isCollected = true; // Đánh dấu coin đã bị nhặt
+            GameManager.instance.AddScore(other.gameObject, 10); // Cộng điểm cho đúng người chơi
+            Destroy(gameObject); // Xóa coin
         }
     }
 }
