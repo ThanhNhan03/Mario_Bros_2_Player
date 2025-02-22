@@ -7,6 +7,8 @@ public class PowerUpController : MonoBehaviour
     private PlayerHealth playerHealth;
     private bool isPoweredUp = false;
 
+    public bool IsPoweredUp => isPoweredUp; // Getter để kiểm tra trạng thái power-up
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -19,8 +21,8 @@ public class PowerUpController : MonoBehaviour
         if (!isPoweredUp)
         {
             isPoweredUp = true;
-            spriteRenderer.color = newColor; // Đổi màu Power-Up
-            playerHealth.SetInvincible(true); // Bật chế độ bất tử
+            spriteRenderer.color = newColor;
+            playerHealth.SetInvincible(true);
         }
     }
 
@@ -29,8 +31,8 @@ public class PowerUpController : MonoBehaviour
         if (isPoweredUp)
         {
             isPoweredUp = false;
-            spriteRenderer.color = originalColor; // Trả về màu ban đầu
-            playerHealth.SetInvincible(false); // Tắt chế độ bất tử
+            spriteRenderer.color = originalColor;
+            playerHealth.SetInvincible(false);
         }
     }
 }

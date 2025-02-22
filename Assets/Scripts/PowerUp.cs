@@ -9,7 +9,7 @@ public class PowerUp : MonoBehaviour
     {
         PowerUpController player = other.GetComponent<PowerUpController>();
 
-        if (player != null)
+        if (player != null && !player.IsPoweredUp)// Kiểm tra nếu chưa có Power-Up mới cho lấy
         {
             if (other.CompareTag("Player1"))
             {
@@ -20,7 +20,7 @@ public class PowerUp : MonoBehaviour
                 player.ActivatePowerUp(player2PowerUpColor);
             }
 
-            Destroy(gameObject); // Xóa Power-Up sau khi Player nhận
+            Destroy(gameObject);
         }
     }
 }

@@ -137,7 +137,7 @@ MonoBehaviour:
   groundCheckDistance: 1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2112
   timeToDie: 0.5
   DieSFX: {fileID: 8300000, guid: 49d9343e8209e774dbb3765ece004e4b, type: 3}
 --- !u!70 &2694559504239804779
@@ -433,3 +433,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b159405e7c57d448a37b2f7f429e2cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreValue: 100

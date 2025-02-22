@@ -23,14 +23,14 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
+  - Brick
   - Player1
   - Player2
   - Platform
   - LuckyBlock
-  - Brick
+  - Ground
   - Enemies
-  - 
+  - Bullet
   - 
   - 
   - 
@@ -76,6 +76,9 @@ TagManager:
     locked: 0
   - name: Enemies
     uniqueID: 3105845725
+    locked: 0
+  - name: Bullet
+    uniqueID: 1374843951
     locked: 0
   m_RenderingLayers:
   - Default

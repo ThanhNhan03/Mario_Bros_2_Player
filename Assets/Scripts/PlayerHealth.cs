@@ -28,14 +28,26 @@ public class PlayerHealth : MonoBehaviour
             {
                 Debug.Log("Power-Up lost, entering invincible state");
                 hasPowerUp = false;
-                powerUpController.DeactivatePowerUp(); // Tắt Power-Up
-                StartCoroutine(BecomeInvincible()); // Bật Invincible khi mất Power-Up
+                powerUpController.DeactivatePowerUp(); 
+                StartCoroutine(BecomeInvincible()); 
             }
             else if (!isInvincible)
             {
                 Debug.Log("Player attacked");
                 TakeDamage();
             }
+        }
+        else if (collision.CompareTag("KillZone"))
+        {
+            Debug.Log("Player fell into Killzone");
+            if (hasPowerUp)
+            {
+                hasPowerUp = false;
+                powerUpController.DeactivatePowerUp(); // Tắt Power-Up
+                Debug.Log("Power-Up lost due to Killzone");
+                StartCoroutine(BecomeInvincible());
+            }
+            Die();
         }
     }
 
@@ -70,7 +82,7 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player died");
-        // Respawn(); // Thêm logic chết hoặc hiệu ứng nếu cần
+        //thêm logic die sau
     }
 
     public void Respawn()

@@ -2,8 +2,8 @@
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Player Settings")]
     public bool isPlayer1;
-   
 
     [Header("Movement Settings")]
     public float moveSpeed = 8f;
@@ -13,67 +13,81 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 16f;
     public float sprintJumpMultiplier = 1.3f;
     public float gravityScale = 5f;
+
+    [Header("Shooting Settings")]
+    public Transform firePoint;
+    public GameObject bulletPrefab;
+    public float shootCooldown = 0.5f;
+
+    [Header("References")]
     public LayerMask groundLayer;
     public AudioClip jumpSFX;
-
+    private PowerUpController powerUpController; // 🎯 Thêm biến kiểm tra PowerUp
 
     private Rigidbody2D rb;
     private Animator animator;
+    private AudioSource audioSource;
+
     private float moveDirection = 0f;
     private bool isJumping = false;
     private bool isGrounded = false;
-    private float velocityX = 0f;
     private bool isSprinting = false;
     private bool facingRight = true;
-    private AudioSource audioSource;
+    private float velocityX = 0f;
+    private float lastShootTime = 0f;
 
-
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = gravityScale;
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        powerUpController = GetComponent<PowerUpController>(); // 🔥 Lấy tham chiếu PowerUpController
     }
 
-    void Update()
+    private void Update()
     {
-        KeyCode leftKey = isPlayer1 ? KeyCode.A : KeyCode.LeftArrow;
-        KeyCode rightKey = isPlayer1 ? KeyCode.D : KeyCode.RightArrow;
-        KeyCode jumpKey = isPlayer1 ? KeyCode.J : KeyCode.Keypad1;
-        KeyCode sprintKey = isPlayer1 ? KeyCode.K : KeyCode.Keypad2;
-        KeyCode jumpKey1 = isPlayer1 ? KeyCode.None : KeyCode.N;
-        KeyCode sprintKey1 = isPlayer1 ? KeyCode.None : KeyCode.M;
-
-
-        // Xác định hướng di chuyển
-        if (Input.GetKey(leftKey)) moveDirection = -1f;
-        else if (Input.GetKey(rightKey)) moveDirection = 1f;
-        else moveDirection = 0f;
-
-
-        // Kiểm tra giữ nút chạy nhanh
-        isSprinting = Input.GetKey(sprintKey) || (sprintKey1 != KeyCode.None && Input.GetKey(sprintKey1));
-
-
-
-
-        // Kiểm tra nhảy
-        if ((Input.GetKeyDown(jumpKey) || (jumpKey1 != KeyCode.None && Input.GetKeyDown(jumpKey1))) && isGrounded)
-        {
-            isJumping = true;
-        }
-
-
-
+        HandleInput();
         CheckGround();
         FlipCharacter();
         UpdateAnimation();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        float finalSpeed = moveSpeed * (isSprinting ? sprintMultiplier : 1f);
+        MovePlayer();
+        Jump();
+    }
+
+    private void HandleInput()
+    {
+        KeyCode leftKey = isPlayer1 ? KeyCode.A : KeyCode.LeftArrow;
+        KeyCode rightKey = isPlayer1 ? KeyCode.D : KeyCode.RightArrow;
+        KeyCode jumpKey = isPlayer1 ? KeyCode.J : KeyCode.Keypad1;
+        KeyCode sprintKey = isPlayer1 ? KeyCode.K : KeyCode.Keypad2;
+        KeyCode shootKey = isPlayer1 ? KeyCode.L : KeyCode.Keypad3;
+
+        moveDirection = (Input.GetKey(leftKey) ? -1f : 0f) + (Input.GetKey(rightKey) ? 1f : 0f);
+        isSprinting = Input.GetKey(sprintKey);
+
+        if (Input.GetKeyDown(jumpKey) && isGrounded)
+        {
+            isJumping = true;
+        }
+
+        if (Input.GetKeyDown(shootKey) && Time.time >= lastShootTime + shootCooldown)
+        {
+            if (powerUpController != null && powerUpController.IsPoweredUp)
+            {
+                Shoot();
+                lastShootTime = Time.time;
+            }
+        }
+    }
+
+    private void MovePlayer()
+    {
+        float finalSpeed = moveSpeed * (isSprinting && moveDirection != 0 ? sprintMultiplier : 1f);
 
         if (moveDirection != 0)
             velocityX = Mathf.MoveTowards(velocityX, finalSpeed * moveDirection, acceleration * Time.fixedDeltaTime);
@@ -81,7 +95,10 @@ public class PlayerMovement : MonoBehaviour
             velocityX = Mathf.MoveTowards(velocityX, 0, deceleration * Time.fixedDeltaTime);
 
         rb.linearVelocity = new Vector2(velocityX, rb.linearVelocity.y);
+    }
 
+    private void Jump()
+    {
         if (isJumping)
         {
             float jumpPower = isSprinting ? jumpForce * sprintJumpMultiplier : jumpForce;
@@ -95,48 +112,36 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void CheckGround()
+    private void CheckGround()
     {
         float extraHeight = 0.1f;
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, GetComponent<Collider2D>().bounds.extents.y + extraHeight, groundLayer);
     }
 
-    void FlipCharacter()
+    private void FlipCharacter()
     {
-        if (moveDirection < 0 && facingRight)
+        if ((moveDirection < 0 && facingRight) || (moveDirection > 0 && !facingRight))
         {
-            facingRight = false;
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (moveDirection > 0 && !facingRight)
-        {
-            facingRight = true;
-            transform.localScale = new Vector3(1, 1, 1);
+            facingRight = !facingRight;
+            transform.localScale = new Vector3(facingRight ? 1 : -1, 1, 1);
         }
     }
 
-    void UpdateAnimation()
+    private void UpdateAnimation()
     {
-        if (animator != null)
-        {
-            if (!isGrounded)
-            {
-                animator.SetBool("isJumping", true);
-                animator.SetBool("isRunning", false);
-            }
-            else if (moveDirection != 0)
-            {
-                animator.SetBool("isJumping", false);
-                animator.SetBool("isRunning", true);
-                animator.speed = isSprinting ? 1.8f : 1.0f;
-            }
-            else
-            {
-                animator.SetBool("isJumping", false);
-                animator.SetBool("isRunning", false);
-                animator.speed = 1.0f;
-            }
-        }
+        if (animator == null) return;
+
+        animator.SetBool("isJumping", !isGrounded);
+        animator.SetBool("isRunning", moveDirection != 0);
+        animator.speed = isSprinting ? 1.8f : 1.0f;
+    }
+
+    private void Shoot()
+    {
+        if (bulletPrefab == null || firePoint == null) return;
+
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        bullet.GetComponent<BulletMovement>().Initialize(new Vector2(facingRight ? 1 : -1, 0));
     }
 
     public void Bounce()
