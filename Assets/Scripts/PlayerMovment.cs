@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public LayerMask groundLayer;
     public AudioClip jumpSFX;
+    public AudioClip shootSFX;
     private PowerUpController powerUpController; 
 
     private Rigidbody2D rb;
@@ -139,6 +140,16 @@ public class PlayerMovement : MonoBehaviour
     private void Shoot()
     {
         if (bulletPrefab == null || firePoint == null) return;
+        if (shootSFX != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(shootSFX);
+        }
+
+        if (animator != null)
+        {
+            animator.SetTrigger("isShooting");
+        }
+
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         bullet.GetComponent<BulletMovement>().Initialize(new Vector2(facingRight ? 1 : -1, 0), gameObject);

@@ -120,6 +120,10 @@ public class GoobasMovement : MonoBehaviour
         float randomDirection = Random.Range(-1f, 1f);
         rb.AddForce(new Vector2(randomDirection * 2f, 8f), ForceMode2D.Impulse);
         rb.angularVelocity = 500f;
+        if (DieSFX != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(DieSFX);
+        }
 
         Destroy(gameObject, 2f);
     }

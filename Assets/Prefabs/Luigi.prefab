@@ -124,6 +124,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2112
   jumpSFX: {fileID: 8300000, guid: 08d94036d7a2a6949a691f78462ff8d4, type: 3}
+  shootSFX: {fileID: 8300000, guid: d7b1b3c154f54564a99987f74e4bae1b, type: 3}
 --- !u!50 &5175475266735510411
 Rigidbody2D:
   serializedVersion: 5
@@ -223,7 +224,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

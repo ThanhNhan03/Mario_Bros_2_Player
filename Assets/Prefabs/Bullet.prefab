@@ -190,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceableLayers:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 18432
   explosionEffect: {fileID: 9097131391601343783, guid: 764a986d1a7d23c4389f2e17f9ce5018, type: 3}
   speed: 10
   bounceForce: 8
