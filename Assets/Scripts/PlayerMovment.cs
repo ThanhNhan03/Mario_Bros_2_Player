@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public LayerMask groundLayer;
     public AudioClip jumpSFX;
-    private PowerUpController powerUpController; // 🎯 Thêm biến kiểm tra PowerUp
+    private PowerUpController powerUpController; 
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         rb.gravityScale = gravityScale;
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        powerUpController = GetComponent<PowerUpController>(); // 🔥 Lấy tham chiếu PowerUpController
+        powerUpController = GetComponent<PowerUpController>(); 
     }
 
     private void Update()
@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
         if (bulletPrefab == null || firePoint == null) return;
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-        bullet.GetComponent<BulletMovement>().Initialize(new Vector2(facingRight ? 1 : -1, 0));
+        bullet.GetComponent<BulletMovement>().Initialize(new Vector2(facingRight ? 1 : -1, 0), gameObject);
     }
 
     public void Bounce()

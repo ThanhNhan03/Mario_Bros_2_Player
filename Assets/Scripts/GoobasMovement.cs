@@ -7,7 +7,7 @@ public class GoobasMovement : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float timeToDie = 0.5f;
     [SerializeField] AudioClip DieSFX;
-
+    [SerializeField] int scoreByGetShot = 100;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -36,12 +36,29 @@ public class GoobasMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Bullet"))
+        {
+            BulletMovement bullet = collision.GetComponent<BulletMovement>();
+            if (bullet != null)
+            {
+                GameObject shooter = bullet.GetShooter();
+                if (shooter != null)
+                {
+                    GameManager.instance.AddScore(shooter, scoreByGetShot); 
+                }
+            }
+
+            GetShot();
+            Destroy(collision.gameObject);
+        }
+
         if (!isDead)
         {
             moveSpeed = -moveSpeed;
             FlipEnemyFacing();
         }
     }
+
 
     void FlipEnemyFacing()
     {
@@ -54,34 +71,26 @@ public class GoobasMovement : MonoBehaviour
     {
         Vector2 origin = new Vector2(transform.position.x + Mathf.Sign(moveSpeed) * 0.5f, transform.position.y);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayer);
-
         Debug.DrawRay(origin, Vector2.down * groundCheckDistance, Color.red);
-
         return hit.collider != null;
     }
 
     public void Die()
     {
+        isDead = true;
+
         Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
         foreach (Collider2D col in colliders)
         {
             col.enabled = false;
         }
 
-        // Dừng chuyển động của enemy (đặt tốc độ về 0)
         rb.linearVelocity = Vector2.zero;
-
-
         rb.bodyType = RigidbodyType2D.Kinematic;
-
         rb.simulated = false;
 
-
-
-        // Đặt enemy xuống sát mặt đất
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.1f, transform.position.z);
 
-        // Chơi animation chết
         animator.SetTrigger("Die");
 
         if (DieSFX != null && audioSource != null)
@@ -89,12 +98,30 @@ public class GoobasMovement : MonoBehaviour
             audioSource.PlayOneShot(DieSFX);
         }
 
-
-        // Hủy enemy sau thời gian delay
         Destroy(gameObject, timeToDie);
     }
 
+    void GetShot()
+    {
+        isDead = true;
 
+        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D col in colliders)
+        {
+            col.enabled = false;
+        }
 
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.gravityScale = 2f;
+
+        transform.rotation = Quaternion.Euler(0, 0, 180);
+
+        float randomDirection = Random.Range(-1f, 1f);
+        rb.AddForce(new Vector2(randomDirection * 2f, 8f), ForceMode2D.Impulse);
+        rb.angularVelocity = 500f;
+
+        Destroy(gameObject, 2f);
+    }
 
 }

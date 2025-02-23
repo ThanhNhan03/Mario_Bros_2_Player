@@ -4,7 +4,7 @@ public class EnemyHead : MonoBehaviour
 {
     private GoobasMovement enemy;
     private Collider2D enemyHeadCollider;
-    [SerializeField] private int scoreValue = 100;
+    [SerializeField] private int scoreValue = 200;
 
     void Start()
     {

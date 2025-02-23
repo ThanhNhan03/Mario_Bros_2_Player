@@ -16,6 +16,7 @@ TagManager:
   - Player1Foot
   - Player2Foot
   - KillZone
+  - Bullet
   layers:
   - Default
   - TransparentFX
