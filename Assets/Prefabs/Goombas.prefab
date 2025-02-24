@@ -140,6 +140,7 @@ MonoBehaviour:
     m_Bits: 2112
   timeToDie: 0.5
   DieSFX: {fileID: 8300000, guid: 49d9343e8209e774dbb3765ece004e4b, type: 3}
+  scoreByGetShot: 100
 --- !u!70 &2694559504239804779
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -258,7 +259,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
