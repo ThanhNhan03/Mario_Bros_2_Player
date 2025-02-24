@@ -95,4 +95,10 @@ public class PiranhaPlant : MonoBehaviour
     {
         return Vector3.Distance(player.position, transform.position) <= detectionRange;
     }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red; 
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
+
 }

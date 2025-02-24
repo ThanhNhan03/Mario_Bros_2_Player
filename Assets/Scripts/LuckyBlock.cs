@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class LuckyBlock : MonoBehaviour
 {
@@ -41,7 +42,6 @@ public class LuckyBlock : MonoBehaviour
     private void ActivateBlock()
     {
         isUsed = true;
-
         animator.SetTrigger("isUsed");
 
         if (hitSound != null)
@@ -53,9 +53,27 @@ public class LuckyBlock : MonoBehaviour
         {
             GameObject itemToSpawn = spawnItems[Random.Range(0, spawnItems.Length)];
 
-            Vector3 spawnPosition = transform.position + Vector3.up * 1.0f;
+            Vector3 spawnPosition = transform.position + Vector3.up * 0.2f; 
+            GameObject spawnedItem = Instantiate(itemToSpawn, spawnPosition, Quaternion.identity);
 
-            Instantiate(itemToSpawn, spawnPosition, Quaternion.identity);
+            StartCoroutine(MoveUp(spawnedItem)); 
         }
     }
+
+    private IEnumerator MoveUp(GameObject item)
+    {
+        float duration = 0.5f;
+        Vector3 targetPosition = item.transform.position + Vector3.up * 0.8f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            item.transform.position = Vector3.Lerp(item.transform.position, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        item.transform.position = targetPosition; // Đảm bảo đến đúng vị trí
+    }
+
 }
