@@ -18,6 +18,7 @@ TagManager:
   - KillZone
   - Bullet
   - BreakPoint
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -34,7 +35,7 @@ TagManager:
   - Enemies
   - Bullet
   - BreakableBlock
-  - 
+  - Fire
   - 
   - 
   - 

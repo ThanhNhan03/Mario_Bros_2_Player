@@ -122,7 +122,7 @@ MonoBehaviour:
   shootCooldown: 0.5
   groundLayer:
     serializedVersion: 2
-    m_Bits: 2112
+    m_Bits: 19520
   jumpSFX: {fileID: 8300000, guid: 08d94036d7a2a6949a691f78462ff8d4, type: 3}
   shootSFX: {fileID: 8300000, guid: d7b1b3c154f54564a99987f74e4bae1b, type: 3}
 --- !u!50 &5175475266735510411

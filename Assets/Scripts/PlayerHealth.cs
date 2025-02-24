@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy") && collision is CapsuleCollider2D)
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Fire") && collision is CapsuleCollider2D)
         {
             if (hasPowerUp)
             {
