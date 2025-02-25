@@ -3,12 +3,12 @@
 public class PiranhaPlant : MonoBehaviour
 {
     public Transform head;
-    public Transform shootPoint; // Giữ nguyên, nhưng đảm bảo nó là con của head trong Unity
-    public GameObject bulletPrefab; // Prefab viên đạn
+    public Transform shootPoint; 
+    public GameObject bulletPrefab; 
     private Transform player1, player2;
     private Transform targetPlayer;
     public float detectionRange = 5f;
-    public float fireRate = 2f; // Thời gian giữa các lần bắn
+    public float fireRate = 2f;
     private float fireCooldown;
 
     [SerializeField] private float rotationAngle = 270;
@@ -19,7 +19,7 @@ public class PiranhaPlant : MonoBehaviour
         player2 = GameObject.FindGameObjectWithTag("Player2")?.transform;
         fireCooldown = fireRate;
 
-        // Quan trọng: Đảm bảo shootPoint là con của head
+       
         if (shootPoint != null)
         {
             shootPoint.SetParent(head);
@@ -37,7 +37,7 @@ public class PiranhaPlant : MonoBehaviour
             }
         }
 
-        // Lấy player gần nhất
+    
         targetPlayer = GetNearestPlayer();
 
         if (targetPlayer != null && IsPlayerInRange(targetPlayer))
@@ -68,7 +68,7 @@ public class PiranhaPlant : MonoBehaviour
     {
         if (bulletPrefab == null || shootPoint == null) return;
 
-        // Tạo viên đạn tại vị trí shootPoint với góc quay đúng của đầu
+    
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation);
         FireMovement bulletMover = bullet.GetComponent<FireMovement>();
         Debug.Log($"Head Rotation: {head.rotation.eulerAngles.z}, Head Right: {head.right}");

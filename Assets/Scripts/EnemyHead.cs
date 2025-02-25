@@ -23,7 +23,6 @@ public class EnemyHead : MonoBehaviour
                 enemy.Die();
                 DisableHeadCollider();
 
-                // Cộng điểm cho player khi giết enemy
                 GameManager.instance.AddScore(player.gameObject, scoreValue);
             }
         }

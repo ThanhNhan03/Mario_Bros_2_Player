@@ -9,7 +9,7 @@ public class PowerUp : MonoBehaviour
     {
         PowerUpController player = other.GetComponent<PowerUpController>();
 
-        if (player != null && !player.IsPoweredUp)// Kiểm tra nếu chưa có Power-Up mới cho lấy
+        if (player != null && !player.IsPoweredUp)
         {
             if (other.CompareTag("Player1"))
             {

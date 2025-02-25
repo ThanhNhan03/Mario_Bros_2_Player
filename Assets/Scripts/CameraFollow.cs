@@ -11,8 +11,8 @@ public class CameraFollow : MonoBehaviour
     public float minZoom = 5f;
     public float maxZoom = 10f;
     public float zoomLimiter = 5f;
-    public float zoomInDistance = 3f; // Khoảng cách để bắt đầu zoom in
-    public float zoomOutDistance = 6f; // Khoảng cách để bắt đầu zoom out
+    public float zoomInDistance = 3f;
+    public float zoomOutDistance = 6f; 
 
     [Header("Camera Bounds")]
     public BoxCollider2D cameraBounds;
@@ -53,9 +53,10 @@ public class CameraFollow : MonoBehaviour
         targetPos.z = transform.position.z;
         transform.position = Vector3.Lerp(transform.position, targetPos, smoothSpeed * Time.deltaTime);
 
-        // Khi chỉ còn 1 Player, camera sẽ zoom in về mức minZoom
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, minZoom, Time.deltaTime * smoothSpeed);
+        float targetZoom = Camera.main.orthographicSize;
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * smoothSpeed);
     }
+
 
     void FollowBothPlayers()
     {

@@ -12,7 +12,6 @@ public class FireMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         moveDirection = direction.normalized * speed;
 
-        // Lật viên đạn theo hướng bay
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 

@@ -73,7 +73,7 @@ public class LuckyBlock : MonoBehaviour
             yield return null;
         }
 
-        item.transform.position = targetPosition; // Đảm bảo đến đúng vị trí
+        item.transform.position = targetPosition; 
     }
 
 }

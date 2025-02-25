@@ -7,7 +7,7 @@ public class KillZone : MonoBehaviour
         if (other.CompareTag("Player1") || other.CompareTag("Player2"))
         {
             other.GetComponent<PlayerHealth>().TakeDamage();
-            other.GetComponent<PlayerHealth>().Respawn();
+            other.GetComponent<PlayerHealth>().KillZoneCheckPointRespawn();
         }
     }
 }
