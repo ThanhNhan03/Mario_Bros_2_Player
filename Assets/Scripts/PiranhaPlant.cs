@@ -3,9 +3,10 @@
 public class PiranhaPlant : MonoBehaviour
 {
     public Transform head;
-    public Transform shootPoint; 
-    public GameObject bulletPrefab; 
+    public Transform shootPoint;
+    public GameObject bulletPrefab;
     private Transform player1, player2;
+    private PlayerHealth player1Health, player2Health;
     private Transform targetPlayer;
     public float detectionRange = 5f;
     public float fireRate = 2f;
@@ -15,11 +16,22 @@ public class PiranhaPlant : MonoBehaviour
 
     void Start()
     {
-        player1 = GameObject.FindGameObjectWithTag("Player1")?.transform;
-        player2 = GameObject.FindGameObjectWithTag("Player2")?.transform;
+        GameObject p1 = GameObject.FindGameObjectWithTag("Player1");
+        GameObject p2 = GameObject.FindGameObjectWithTag("Player2");
+
+        if (p1 != null)
+        {
+            player1 = p1.transform;
+            player1Health = p1.GetComponent<PlayerHealth>();
+        }
+        if (p2 != null)
+        {
+            player2 = p2.transform;
+            player2Health = p2.GetComponent<PlayerHealth>();
+        }
+
         fireCooldown = fireRate;
 
-       
         if (shootPoint != null)
         {
             shootPoint.SetParent(head);
@@ -34,10 +46,13 @@ public class PiranhaPlant : MonoBehaviour
             if (player2Object != null)
             {
                 player2 = player2Object.transform;
+                player2Health = player2Object.GetComponent<PlayerHealth>();
             }
         }
 
-    
+        // Kiểm tra nếu tất cả người chơi đều đã chết
+        if (PlayerHealth.playersAlive <= 0) return;
+
         targetPlayer = GetNearestPlayer();
 
         if (targetPlayer != null && IsPlayerInRange(targetPlayer))
@@ -68,20 +83,19 @@ public class PiranhaPlant : MonoBehaviour
     {
         if (bulletPrefab == null || shootPoint == null) return;
 
-    
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation);
         FireMovement bulletMover = bullet.GetComponent<FireMovement>();
-        Debug.Log($"Head Rotation: {head.rotation.eulerAngles.z}, Head Right: {head.right}");
 
         bulletMover.Initialize(Quaternion.Euler(0, 0, 90) * head.right);
-
     }
-
 
     Transform GetNearestPlayer()
     {
-        bool player1InRange = player1 != null && Vector3.Distance(player1.position, transform.position) <= detectionRange;
-        bool player2InRange = player2 != null && Vector3.Distance(player2.position, transform.position) <= detectionRange;
+        bool isPlayer1Alive = player1 != null && player1Health != null && player1.gameObject.activeSelf;
+        bool isPlayer2Alive = player2 != null && player2Health != null && player2.gameObject.activeSelf;
+
+        bool player1InRange = isPlayer1Alive && Vector3.Distance(player1.position, transform.position) <= detectionRange;
+        bool player2InRange = isPlayer2Alive && Vector3.Distance(player2.position, transform.position) <= detectionRange;
 
         if (!player1InRange && !player2InRange) return null;
 
@@ -93,12 +107,12 @@ public class PiranhaPlant : MonoBehaviour
 
     bool IsPlayerInRange(Transform player)
     {
-        return Vector3.Distance(player.position, transform.position) <= detectionRange;
-    }
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red; 
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        return player != null && Vector3.Distance(player.position, transform.position) <= detectionRange;
     }
 
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
 }
