@@ -1,7 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    [SerializeField] private float respawnHeightOffset = 1.5f;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player1") || other.CompareTag("Player2"))
@@ -9,8 +11,10 @@ public class Checkpoint : MonoBehaviour
             CheckpointSystem checkpointSystem = other.GetComponent<CheckpointSystem>();
             if (checkpointSystem != null)
             {
-                checkpointSystem.SetCheckpoint(transform.position);
-                Debug.Log("Checkpoint reached at: " + transform.position);
+                Vector3 respawnPosition = transform.position + Vector3.up * respawnHeightOffset;
+                checkpointSystem.SetCheckpoint(respawnPosition);
+                Debug.Log(other.tag + " reached checkpoint at: " + transform.position);
+                Debug.Log("Respawn position set at: " + respawnPosition);
             }
         }
     }

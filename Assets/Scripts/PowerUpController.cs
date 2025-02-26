@@ -7,8 +7,7 @@ public class PowerUpController : MonoBehaviour
     private PlayerHealth playerHealth;
     private bool isPoweredUp = false;
 
-    public bool IsPoweredUp => isPoweredUp; // Getter để kiểm tra trạng thái power-up
-
+    public bool IsPoweredUp => isPoweredUp; 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();

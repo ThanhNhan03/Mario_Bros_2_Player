@@ -66,7 +66,6 @@ public class PlayerHealth : MonoBehaviour
                 Debug.Log("Power-Up lost due to Killzone");
                 StartCoroutine(BecomeInvincible());
             }
-            Die();
         }
     }
 

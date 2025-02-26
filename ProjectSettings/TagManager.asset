@@ -83,5 +83,8 @@ TagManager:
   - name: Bullet
     uniqueID: 1374843951
     locked: 0
+  - name: Pipe
+    uniqueID: 787603305
+    locked: 0
   m_RenderingLayers:
   - Default
