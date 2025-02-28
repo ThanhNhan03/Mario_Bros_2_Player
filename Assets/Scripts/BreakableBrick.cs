@@ -8,18 +8,16 @@ public class BreakableBrick : MonoBehaviour
     public Sprite emptyBlock;
     
     private bool animating;
-    private AudioSource audioSource;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (audioSource == null)
-        {
-            Debug.LogWarning("AudioSource is missing on " + gameObject.name);
-        }
+        //if (audioSource == null)
+        //{
+        //    Debug.LogWarning("AudioSource is missing on " + gameObject.name);
+        //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

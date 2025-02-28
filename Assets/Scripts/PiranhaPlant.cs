@@ -50,7 +50,6 @@ public class PiranhaPlant : MonoBehaviour
             }
         }
 
-        // Kiểm tra nếu tất cả người chơi đều đã chết
         if (PlayerHealth.playersAlive <= 0) return;
 
         targetPlayer = GetNearestPlayer();
@@ -73,11 +72,13 @@ public class PiranhaPlant : MonoBehaviour
 
         Vector3 direction = targetPlayer.position - head.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        float snappedAngle = Mathf.Round(angle / 45) * 45;
-        float offsetAngle = rotationAngle;
 
-        head.rotation = Quaternion.Euler(0, 0, snappedAngle + offsetAngle);
+        angle += rotationAngle;
+
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+        head.rotation = Quaternion.Lerp(head.rotation, targetRotation, Time.deltaTime * 5f);
     }
+
 
     void Shoot()
     {

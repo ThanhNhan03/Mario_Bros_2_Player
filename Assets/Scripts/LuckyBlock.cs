@@ -66,6 +66,12 @@ public class LuckyBlock : MonoBehaviour
         Vector3 targetPosition = item.transform.position + Vector3.up * 0.8f;
         float elapsedTime = 0f;
 
+        Collider2D itemCollider = item.GetComponent<Collider2D>();
+        if (itemCollider != null)
+        {
+            itemCollider.enabled = false; 
+        }
+
         while (elapsedTime < duration)
         {
             item.transform.position = Vector3.Lerp(item.transform.position, targetPosition, elapsedTime / duration);
@@ -73,7 +79,13 @@ public class LuckyBlock : MonoBehaviour
             yield return null;
         }
 
-        item.transform.position = targetPosition; 
+        item.transform.position = targetPosition;
+
+        if (itemCollider != null)
+        {
+            itemCollider.enabled = true;
+        }
     }
+
 
 }
