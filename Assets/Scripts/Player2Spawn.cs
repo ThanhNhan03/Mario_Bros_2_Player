@@ -6,15 +6,25 @@ public class Player2Spawn : MonoBehaviour
     public float spawnOffset = 1.5f;
     private GameObject player1;
     private CameraFollow cameraFollow;
-    private bool player2HasDied = false; // Biến kiểm soát trạng thái của Player2
+    private bool player2HasDied = false;
+    // Static variable to track if Player 2 should be spawned in the next scene
+    public static bool shouldSpawnPlayer2 = false;
 
     void Start()
     {
         player1 = GameObject.FindGameObjectWithTag("Player1");
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
 
-        player2.SetActive(false);
-        Debug.Log("[Player2Spawn] Initialized. Player2 is inactive.");
+        // Check if Player 2 should be spawned
+        if (shouldSpawnPlayer2)
+        {
+            ActivatePlayer2();
+        }
+        else
+        {
+            player2.SetActive(false);
+            Debug.Log("[Player2Spawn] Initialized. Player2 is inactive.");
+        }
     }
 
     void Update()

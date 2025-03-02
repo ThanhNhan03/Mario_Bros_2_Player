@@ -18,6 +18,26 @@ public class PlayerHealth : MonoBehaviour
     public static int playersAlive = 0;
     public bool isPlayer1 = false;
 
+    public int Health
+    {
+        get { return health; }
+    }
+
+    private void Awake()
+    {
+        // Only reset playersAlive if this is the first scene load
+        if (!PlayerPrefs.HasKey("GameStarted"))
+        {
+            playersAlive = 0;
+            PlayerPrefs.SetInt("GameStarted", 1);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (gameObject.activeSelf) playersAlive--;
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -32,11 +52,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         playersAlive++;
-    }
-
-    private void OnDestroy()
-    {
-        if (gameObject.activeSelf) playersAlive--;
+        Debug.Log("Players alive after adding: " + playersAlive);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -102,7 +118,6 @@ public class PlayerHealth : MonoBehaviour
         if (!gameObject.activeSelf) return;
 
         Debug.Log(gameObject.name + " died!");
-
      
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 2.5f; 
@@ -130,20 +145,30 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator FallOffScreen()
     {
         yield return new WaitForSeconds(1f);
-
-        if (playersAlive == 1)
+    
+        Debug.Log("Current players alive before processing: " + playersAlive);
+    
+        int remainingPlayers = playersAlive - 1;
+    
+        if (remainingPlayers <= 0)
         {
-            Debug.Log("All players are dead. Restarting scene...");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Debug.Log("All players are dead. Playing game over music...");
+            
+            AudioManager.instance.PlayGameOver();
+    
+            yield return new WaitForSeconds(AudioManager.instance.gameOverClip.length);
+    
+            Debug.Log("Game over music finished. Restarting scene...");
+            FindObjectOfType<GameOverUI>().ShowGameOverScreen();
         }
         else
         {
-            playersAlive--;
+            playersAlive = remainingPlayers;
             gameObject.SetActive(false);
-            Debug.Log(gameObject.name + " is disabled, but game continues.");
-
+            Debug.Log(gameObject.name + " is disabled, players remaining: " + playersAlive);
+    
             CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
-
+    
             if (isPlayer1 && cameraFollow != null && cameraFollow.player2 != null)
             {
                 cameraFollow.player1 = cameraFollow.player2;
@@ -155,10 +180,10 @@ public class PlayerHealth : MonoBehaviour
                 cameraFollow.player2 = null;
                 cameraFollow.isPlayer2Active = false;
             }
+    
+            AudioManager.instance.PlayBGMForCurrentScene(); // Ensure BGM plays when players are still alive
         }
     }
-
-
 
     public void KillZoneCheckPointRespawn()
     {

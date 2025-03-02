@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PiranhaPlant : MonoBehaviour
 {
@@ -11,10 +12,44 @@ public class PiranhaPlant : MonoBehaviour
     public float detectionRange = 5f;
     public float fireRate = 2f;
     private float fireCooldown;
+    private int lastSceneIndex = -1;
 
     [SerializeField] private float rotationAngle = 270;
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reset references when a new scene is loaded
+        player1 = null;
+        player2 = null;
+        player1Health = null;
+        player2Health = null;
+        FindPlayers();
+    }
+
     void Start()
+    {
+        FindPlayers();
+        fireCooldown = fireRate;
+
+        if (shootPoint != null)
+        {
+            shootPoint.SetParent(head);
+        }
+        
+        lastSceneIndex = SceneManager.GetActiveScene().buildIndex;
+    }
+
+    void FindPlayers()
     {
         GameObject p1 = GameObject.FindGameObjectWithTag("Player1");
         GameObject p2 = GameObject.FindGameObjectWithTag("Player2");
@@ -29,24 +64,35 @@ public class PiranhaPlant : MonoBehaviour
             player2 = p2.transform;
             player2Health = p2.GetComponent<PlayerHealth>();
         }
-
-        fireCooldown = fireRate;
-
-        if (shootPoint != null)
-        {
-            shootPoint.SetParent(head);
-        }
     }
 
     void Update()
     {
-        if (player2 == null)
+        // Check if scene has changed
+        if (lastSceneIndex != SceneManager.GetActiveScene().buildIndex)
         {
-            GameObject player2Object = GameObject.FindGameObjectWithTag("Player2");
-            if (player2Object != null)
+            lastSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            FindPlayers();
+        }
+
+        // Try to find players if they're null
+        if (player1 == null || player1Health == null)
+        {
+            GameObject p1 = GameObject.FindGameObjectWithTag("Player1");
+            if (p1 != null)
             {
-                player2 = player2Object.transform;
-                player2Health = player2Object.GetComponent<PlayerHealth>();
+                player1 = p1.transform;
+                player1Health = p1.GetComponent<PlayerHealth>();
+            }
+        }
+
+        if (player2 == null || player2Health == null)
+        {
+            GameObject p2 = GameObject.FindGameObjectWithTag("Player2");
+            if (p2 != null)
+            {
+                player2 = p2.transform;
+                player2Health = p2.GetComponent<PlayerHealth>();
             }
         }
 

@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 16f;
     public float sprintJumpMultiplier = 1.3f;
     public float gravityScale = 5f;
-
+    private bool canMove = true; // Add this flag to control movement
     [Header("Shooting Settings")]
     public Transform firePoint;
     public GameObject bulletPrefab;
@@ -48,18 +48,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        HandleInput();
-        CheckGround();
-        FlipCharacter();
-        UpdateAnimation();
+        if (canMove) // Check if the player can move
+        {
+            HandleInput();
+            CheckGround();
+            FlipCharacter();
+            UpdateAnimation();
+        }
     }
 
     private void FixedUpdate()
     {
-        MovePlayer();
-        Jump();
+        if (canMove) // Check if the player can move
+        {
+            MovePlayer();
+            Jump();
+        }
     }
-
+    // Method to enable or disable player movement
+    public void SetMovementEnabled(bool enabled)
+    {
+        canMove = enabled;
+        if (!enabled)
+        {
+            // Stop the player's movement
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+    }
     private void HandleInput()
     {
         KeyCode leftKey = isPlayer1 ? KeyCode.A : KeyCode.LeftArrow;
