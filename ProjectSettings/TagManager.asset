@@ -19,6 +19,7 @@ TagManager:
   - Bullet
   - BreakPoint
   - Fire
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -118,7 +118,9 @@ public class PlayerHealth : MonoBehaviour
         if (!gameObject.activeSelf) return;
 
         Debug.Log(gameObject.name + " died!");
-     
+         
+        GetComponent<PlayerMovement>().SetMovementEnabled(false);
+        
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 2.5f; 
         rb.linearVelocity = new Vector2(0, 10f); 
@@ -129,7 +131,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         animator.SetTrigger("isDead");
-    
+
         gameObject.layer = LayerMask.NameToLayer("IgnoreCollisions");
 
         if (!isPlayer1) 

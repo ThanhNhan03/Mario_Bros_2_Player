@@ -22,6 +22,14 @@ public class BreakableBrick : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Check for boss first
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BreakBrick();
+            return;
+        }
+
+        // Existing player logic
         if (collision.gameObject.CompareTag("Player1") || (collision.gameObject.CompareTag("Player2")))
         {
             PowerUpController powerUpController = collision.gameObject.GetComponent<PowerUpController>();
