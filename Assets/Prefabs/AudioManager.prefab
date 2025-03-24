@@ -50,8 +50,11 @@ MonoBehaviour:
     bgmClip: {fileID: 8300000, guid: 9c9fe11dfcabbeb4b97a231211ad8e72, type: 3}
   - sceneName: Level2
     bgmClip: {fileID: 8300000, guid: bde4ffe9699931649bd149f41c4ad68e, type: 3}
+  - sceneName: Level3
+    bgmClip: {fileID: 8300000, guid: 617cf5aacfbb9ec48b1294c468a8f4b9, type: 3}
   gameOverClip: {fileID: 8300000, guid: fb4d25ae7f07d834492eda7b907616a7, type: 3}
   levelExitClip: {fileID: 8300000, guid: 07e8ced5767857441b68306093f52995, type: 3}
+  warningClip: {fileID: 8300000, guid: cd50d5728cf3dbf4fbc127325f5078c3, type: 3}
 --- !u!82 &7201711498865033382
 AudioSource:
   m_ObjectHideFlags: 0

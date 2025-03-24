@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Cập nhật Player1 và Player2 mỗi frame để kiểm tra sự tồn tại
         player1 = GameObject.FindWithTag("Player1");
         player2 = GameObject.FindWithTag("Player2");
 
@@ -50,7 +49,6 @@ public class GameManager : MonoBehaviour
             player1HealthText.gameObject.SetActive(false);
         }
 
-        // Nếu Player2 tồn tại, hiển thị điểm số và máu
         if (player2 != null)
         {
             player2ScoreText.text = "Player 2: " + player2Score;
@@ -67,7 +65,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Hàm cộng điểm chính xác cho Player1 hoặc Player2
     public void AddScore(GameObject player, int points)
     {
         if (player.CompareTag("Player1"))

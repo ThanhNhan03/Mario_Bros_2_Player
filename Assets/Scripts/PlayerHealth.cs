@@ -130,6 +130,7 @@ public class PlayerHealth : MonoBehaviour
             col.enabled = false;
         }
 
+
         animator.SetTrigger("isDead");
 
         gameObject.layer = LayerMask.NameToLayer("IgnoreCollisions");
@@ -183,7 +184,7 @@ public class PlayerHealth : MonoBehaviour
                 cameraFollow.isPlayer2Active = false;
             }
     
-            AudioManager.instance.PlayBGMForCurrentScene(); // Ensure BGM plays when players are still alive
+            // AudioManager.instance.PlayBGMForCurrentScene(); // Ensure BGM plays when players are still alive
         }
     }
 

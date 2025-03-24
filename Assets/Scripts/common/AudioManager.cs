@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
     public SceneBGM[] sceneBGMs;
     public AudioClip gameOverClip;
     public AudioClip levelExitClip;
+    public AudioClip warningClip;  
 
     private AudioSource audioSource;
 
@@ -83,6 +84,11 @@ public class AudioManager : MonoBehaviour
         PlayAudioClip(levelExitClip);
     }
 
+    public void PlayWarning()  // Add this method
+    {
+        PlayAudioClip(warningClip);
+    }
+
     public void ResumeBGM()
     {
         PlayBGMForCurrentScene();
@@ -96,5 +102,13 @@ public class AudioManager : MonoBehaviour
         }
         audioSource.clip = clip;
         audioSource.Play();
+    }
+
+    public void PlayOneShot(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
     }
 }
