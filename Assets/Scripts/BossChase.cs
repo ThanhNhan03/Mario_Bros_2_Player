@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class BossChase : MonoBehaviour
 {
+    // Add this new variable
+    public VictoryPanel victoryPanel;
+    
     // Add these new variables
     public GameObject explosionEffect; // Assign explosion prefab in Inspector
     public float victoryMusicDelay = 1f;
@@ -173,12 +176,17 @@ public class BossChase : MonoBehaviour
         // Hide the boss
         GetComponent<SpriteRenderer>().enabled = false;
         
-        // Wait a moment before playing victory music
+        // Wait a moment before playing victory music and showing panel
         yield return new WaitForSeconds(victoryMusicDelay);
         
         if (AudioManager.instance != null)
         {
             AudioManager.instance.PlayVictory();
+        }
+
+        if (victoryPanel != null)
+        {
+            victoryPanel.ShowVictoryPanel();
         }
         
         // Wait for victory music to start before destroying
