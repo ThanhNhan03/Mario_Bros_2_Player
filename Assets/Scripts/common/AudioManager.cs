@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip gameOverClip;
     public AudioClip levelExitClip;
     public AudioClip warningClip;  
+    public AudioClip bossExplosionSound;
+    public AudioClip victorySound;
 
     private AudioSource audioSource;
 
@@ -106,7 +109,7 @@ public class AudioManager : MonoBehaviour
         audioSource.clip = clip;
         
         // Enable looping for background music, disable for one-time sounds
-        if (clip == gameOverClip || clip == levelExitClip || clip == warningClip)
+        if (clip == gameOverClip || clip == levelExitClip || clip == warningClip || clip == victorySound)
         {
             audioSource.loop = false;
         }
@@ -116,6 +119,31 @@ public class AudioManager : MonoBehaviour
         }
         
         audioSource.Play();
+    }
+
+    public void PlayBossExplosion()
+    {
+        // Stop current music before playing explosion
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+        PlayOneShot(bossExplosionSound);
+    }
+
+    public void PlayVictory()
+    {
+        // Wait until explosion sound is finished
+        StartCoroutine(PlayVictoryAfterExplosion());
+    }
+
+    private IEnumerator PlayVictoryAfterExplosion()
+    {
+        if (bossExplosionSound != null)
+        {
+            yield return new WaitForSeconds(bossExplosionSound.length);
+        }
+        PlayAudioClip(victorySound);
     }
 
     public void PlayOneShot(AudioClip clip)

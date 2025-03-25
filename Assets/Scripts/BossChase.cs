@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class BossChase : MonoBehaviour
 {
+    // Add these new variables
+    public GameObject explosionEffect; // Assign explosion prefab in Inspector
+    public float victoryMusicDelay = 1f;
     public float startSpeed = 5f; 
     public float acceleration = 0.2f; 
     public float maxSpeed = 20f;  // Maximum speed cap
@@ -151,14 +154,34 @@ public class BossChase : MonoBehaviour
     private IEnumerator DestroyBoss()
     {
         canMove = false;
-        
         GetComponent<Collider2D>().enabled = false;
+        
+        // Play explosion sound and spawn effect
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayBossExplosion();
+        }
+        
+        if (explosionEffect != null)
+        {
+            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        }
+        
+        // Wait for explosion effect
+        yield return new WaitForSeconds(0.5f);
+        
+        // Hide the boss
+        GetComponent<SpriteRenderer>().enabled = false;
+        
+        // Wait a moment before playing victory music
+        yield return new WaitForSeconds(victoryMusicDelay);
         
         if (AudioManager.instance != null)
         {
-            AudioManager.instance.PlayBGMForCurrentScene(); 
+            AudioManager.instance.PlayVictory();
         }
         
+        // Wait for victory music to start before destroying
         yield return new WaitForSeconds(0.5f);
         
         Destroy(gameObject);
