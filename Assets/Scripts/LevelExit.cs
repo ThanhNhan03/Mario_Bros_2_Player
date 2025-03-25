@@ -58,19 +58,21 @@ public class LevelExit : MonoBehaviour
 
     void LoadNextLevel()
     {
-        
         AudioManager.instance.PlayLevelExit();
-            StartCoroutine(WaitForLevelExitAudio());
+        StartCoroutine(WaitForLevelExitAudio());
     }
-    
+
     IEnumerator WaitForLevelExitAudio()
     {
         yield return new WaitForSeconds(AudioManager.instance.levelExitClip.length);
     
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log("Loading next level: " + (currentSceneIndex + 1));
-        SceneManager.LoadScene(currentSceneIndex + 1);
-    
+        string nextSceneName = SceneUtility.GetScenePathByBuildIndex(currentSceneIndex + 1);
+        nextSceneName = System.IO.Path.GetFileNameWithoutExtension(nextSceneName);
+        Debug.Log("Loading next level: " + nextSceneName);
+        
+        LoadingScreen.LoadScene(nextSceneName);
+        
         // Play the BGM for the new scene
         AudioManager.instance.PlayBGMForCurrentScene();
     }

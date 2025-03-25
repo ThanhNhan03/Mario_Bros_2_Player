@@ -1,11 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LoadingScreen : MonoBehaviour
 {
     public Slider progressBar; 
-    public float fakeLoadTime = 3f; 
+    public float fakeLoadTime = 3f;
+    
+    private static string sceneToLoad;
+    
+    public static void LoadScene(string sceneName)
+    {
+        sceneToLoad = sceneName;
+        SceneManager.LoadScene("LoadingScreen");
+    }
 
     void Start()
     {
@@ -22,7 +31,6 @@ public class LoadingScreen : MonoBehaviour
             yield return null;
         }
 
-       
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene(sceneToLoad ?? "Level1");
     }
 }
