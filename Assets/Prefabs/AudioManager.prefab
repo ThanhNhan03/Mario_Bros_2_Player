@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneBGMs:
   - sceneName: Level1
-    bgmClip: {fileID: 8300000, guid: 9c9fe11dfcabbeb4b97a231211ad8e72, type: 3}
+    bgmClip: {fileID: 8300000, guid: 9976a29ffd8ba2f49b6e612fc0e3a294, type: 3}
   - sceneName: Level2
-    bgmClip: {fileID: 8300000, guid: bde4ffe9699931649bd149f41c4ad68e, type: 3}
+    bgmClip: {fileID: 8300000, guid: a3088ab63f8ba4549ac496046b992cda, type: 3}
   - sceneName: Level3
     bgmClip: {fileID: 8300000, guid: 617cf5aacfbb9ec48b1294c468a8f4b9, type: 3}
   gameOverClip: {fileID: 8300000, guid: fb4d25ae7f07d834492eda7b907616a7, type: 3}
@@ -68,7 +68,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

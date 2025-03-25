@@ -35,6 +35,9 @@ public class AudioManager : MonoBehaviour
                 Debug.Log("Added AudioSource component");
             }
             
+            // Set audio source to loop by default
+            audioSource.loop = true;
+            
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
@@ -84,7 +87,7 @@ public class AudioManager : MonoBehaviour
         PlayAudioClip(levelExitClip);
     }
 
-    public void PlayWarning()  // Add this method
+    public void PlayWarning()  
     {
         PlayAudioClip(warningClip);
     }
@@ -101,6 +104,17 @@ public class AudioManager : MonoBehaviour
             audioSource.Stop();
         }
         audioSource.clip = clip;
+        
+        // Enable looping for background music, disable for one-time sounds
+        if (clip == gameOverClip || clip == levelExitClip || clip == warningClip)
+        {
+            audioSource.loop = false;
+        }
+        else
+        {
+            audioSource.loop = true;
+        }
+        
         audioSource.Play();
     }
 

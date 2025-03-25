@@ -10,6 +10,12 @@ public class EnemyHead : MonoBehaviour
     {
         enemy = GetComponentInParent<GoobasMovement>();
         enemyHeadCollider = GetComponent<Collider2D>();
+        
+        Physics2D.IgnoreLayerCollision(
+            gameObject.layer,
+            LayerMask.NameToLayer("Bullet"),
+            true
+        );
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

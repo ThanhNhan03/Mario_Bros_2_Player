@@ -10,13 +10,13 @@ public class BulletMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private int bounceCount = 0;
-    private GameObject shooter; // 🆕 Người chơi bắn viên đạn
+    private GameObject shooter; 
 
     public void Initialize(Vector2 direction, GameObject shooter)
     {
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = direction * speed;
-        this.shooter = shooter; // Lưu thông tin người chơi đã bắn viên đạn
+        this.shooter = shooter; 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -49,5 +49,5 @@ public class BulletMovement : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public GameObject GetShooter() => shooter; // 🆕 Hàm lấy ra người bắn viên đạn
+    public GameObject GetShooter() => shooter;
 }
