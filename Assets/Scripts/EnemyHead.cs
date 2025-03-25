@@ -11,9 +11,17 @@ public class EnemyHead : MonoBehaviour
         enemy = GetComponentInParent<GoobasMovement>();
         enemyHeadCollider = GetComponent<Collider2D>();
         
+        // Ignore collisions with bullets
         Physics2D.IgnoreLayerCollision(
             gameObject.layer,
             LayerMask.NameToLayer("Bullet"),
+            true
+        );
+        
+        // Ignore collisions with boss
+        Physics2D.IgnoreLayerCollision(
+            gameObject.layer,
+            LayerMask.NameToLayer("Boss"),
             true
         );
     }

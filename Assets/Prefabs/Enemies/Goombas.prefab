@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 7789771487174209584}
   - component: {fileID: 3375773131069334457}
   - component: {fileID: 1467849543077082614}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: HeadCollider
   m_TagString: Weak Point
   m_Icon: {fileID: 0}

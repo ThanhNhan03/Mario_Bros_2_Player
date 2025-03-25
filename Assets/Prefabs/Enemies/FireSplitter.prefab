@@ -140,7 +140,7 @@ MonoBehaviour:
   shootPoint: {fileID: 1183352820376270059}
   bulletPrefab: {fileID: 8560398513269832102, guid: 0e3c6343c241fba4d89c0093d0056ce3, type: 3}
   detectionRange: 8
-  fireRate: 2
+  fireRate: 0.5
   scoreByGetShot: 100
   rotationAngle: 270
 --- !u!70 &6709893804649603971

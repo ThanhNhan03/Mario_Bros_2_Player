@@ -25,17 +25,25 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
-        // Only reset playersAlive if this is the first scene load
-        if (!PlayerPrefs.HasKey("GameStarted"))
+        // Reset players alive count at the start of each scene
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
+            // Only reset on the first scene (main menu)
             playersAlive = 0;
             PlayerPrefs.SetInt("GameStarted", 1);
+        }
+        else
+        {
+            // For other scenes, make sure we're properly tracking players
+            // This ensures we reset the count when transitioning between levels
+            playersAlive = 0; // Reset counter at the start of each scene
         }
     }
 
     private void OnDestroy()
     {
-        if (gameObject.activeSelf) playersAlive--;
+        // Remove this decrement as we'll handle it in FallOffScreen
+        // if (gameObject.activeSelf) playersAlive--;
     }
 
     private void Start()
@@ -51,8 +59,12 @@ public class PlayerHealth : MonoBehaviour
             isPlayer1 = true;
         }
 
-        playersAlive++;
-        Debug.Log("Players alive after adding: " + playersAlive);
+        // Only increment if we're active
+        if (gameObject.activeSelf)
+        {
+            playersAlive++;
+            Debug.Log(gameObject.name + " added. Players alive: " + playersAlive);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -148,30 +160,38 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator FallOffScreen()
     {
         yield return new WaitForSeconds(1f);
-    
+
         Debug.Log("Current players alive before processing: " + playersAlive);
-    
-        int remainingPlayers = playersAlive - 1;
-    
-        if (remainingPlayers <= 0)
+
+        // Ensure we don't go below zero
+        playersAlive = Mathf.Max(0, playersAlive - 1);
+        
+        // Check if there are any active players left in the scene
+        bool player1Active = false;
+        bool player2Active = false;
+        
+        GameObject[] player1Objects = GameObject.FindGameObjectsWithTag("Player1");
+        GameObject[] player2Objects = GameObject.FindGameObjectsWithTag("Player2");
+        
+        foreach (GameObject player in player1Objects)
         {
-            Debug.Log("All players are dead. Playing game over music...");
-            
-            AudioManager.instance.PlayGameOver();
-    
-            yield return new WaitForSeconds(AudioManager.instance.gameOverClip.length);
-    
-            Debug.Log("Game over music finished. Restarting scene...");
-            FindObjectOfType<GameOverUI>().ShowGameOverScreen();
+            if (player.activeSelf && player != gameObject) player1Active = true;
         }
-        else
+        
+        foreach (GameObject player in player2Objects)
         {
-            playersAlive = remainingPlayers;
+            if (player.activeSelf && player != gameObject) player2Active = true;
+        }
+        
+        // If this is player1 dying and player2 is still active, or vice versa, continue the game
+        if ((isPlayer1 && player2Active) || (!isPlayer1 && player1Active))
+        {
+            playersAlive = 1; // Ensure we have exactly 1 player alive
             gameObject.SetActive(false);
-            Debug.Log(gameObject.name + " is disabled, players remaining: " + playersAlive);
-    
+            Debug.Log(gameObject.name + " is disabled, but other player still active");
+
             CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
-    
+
             if (isPlayer1 && cameraFollow != null && cameraFollow.player2 != null)
             {
                 cameraFollow.player1 = cameraFollow.player2;
@@ -183,8 +203,64 @@ public class PlayerHealth : MonoBehaviour
                 cameraFollow.player2 = null;
                 cameraFollow.isPlayer2Active = false;
             }
+        }
+        // If both players are dead, show game over
+        else if (!player1Active && !player2Active)
+        {
+            Debug.Log("All players are dead. Playing game over music...");
+            
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlayGameOver();
+                yield return new WaitForSeconds(AudioManager.instance.gameOverClip.length);
+            }
+            else
+            {
+                yield return new WaitForSeconds(2f);
+            }
     
-            // AudioManager.instance.PlayBGMForCurrentScene(); // Ensure BGM plays when players are still alive
+            Debug.Log("Game over music finished. Showing game over screen...");
+            GameOverUI gameOverUI = FindObjectOfType<GameOverUI>();
+            if (gameOverUI != null)
+            {
+                gameOverUI.ShowGameOverScreen();
+            }
+            else
+            {
+                Debug.LogError("GameOverUI not found in the scene!");
+                // Fallback - reload current scene after a delay
+                yield return new WaitForSeconds(2f);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+        }
+        // This player is the last one alive but is now dead
+        else
+        {
+            Debug.Log("Last player has died. Playing game over music...");
+            
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlayGameOver();
+                yield return new WaitForSeconds(AudioManager.instance.gameOverClip.length);
+            }
+            else
+            {
+                yield return new WaitForSeconds(2f);
+            }
+    
+            Debug.Log("Game over music finished. Showing game over screen...");
+            GameOverUI gameOverUI = FindObjectOfType<GameOverUI>();
+            if (gameOverUI != null)
+            {
+                gameOverUI.ShowGameOverScreen();
+            }
+            else
+            {
+                Debug.LogError("GameOverUI not found in the scene!");
+                // Fallback - reload current scene after a delay
+                yield return new WaitForSeconds(2f);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
     }
 

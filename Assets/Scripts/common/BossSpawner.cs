@@ -17,9 +17,47 @@ public class BossSpawner : MonoBehaviour
         {
             boss.SetActive(false);
         }
+        
+        // Use a coroutine to wait for players to be fully initialized
+        StartCoroutine(SetupSequence());
+    }
+
+    IEnumerator SetupSequence()
+    {
+        // Wait for a frame to ensure all objects are initialized
+        yield return new WaitForEndOfFrame();
+        
+        // Disable player movement at the start
+        DisablePlayerMovement();
+        
+        // Start the warning sequence
         StartCoroutine(WarningSequence());
     }
 
+    private void DisablePlayerMovement()
+    {
+        PlayerMovement[] players = FindObjectsOfType<PlayerMovement>();
+        foreach (PlayerMovement player in players)
+        {
+            if (player != null)  // Add null check
+            {
+                player.SetMovementEnabled(false);
+            }
+        }
+    }
+
+    private void EnablePlayerMovement()
+    {
+        PlayerMovement[] players = FindObjectsOfType<PlayerMovement>();
+        foreach (PlayerMovement player in players)
+        {
+            if (player != null)  // Add null check
+            {
+                player.SetMovementEnabled(true);
+            }
+        }
+    }
+    
     IEnumerator WarningSequence()
     {
         warningPanel.SetActive(true);
@@ -58,6 +96,9 @@ public class BossSpawner : MonoBehaviour
             {
                 bossChase.StartChasing();
             }
+            
+            // Re-enable player movement when boss starts chasing
+            EnablePlayerMovement();
         }
     }
 }
