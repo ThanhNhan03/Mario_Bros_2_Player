@@ -186,7 +186,7 @@ MonoBehaviour:
   shootCooldown: 0.5
   groundLayer:
     serializedVersion: 2
-    m_Bits: 19520
+    m_Bits: 281664
   jumpSFX: {fileID: 8300000, guid: 08d94036d7a2a6949a691f78462ff8d4, type: 3}
   shootSFX: {fileID: 8300000, guid: 5f1f48169e62be24e84c1150d6c1a38b, type: 3}
 --- !u!95 &8359447886431117983
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30549adc6374ac41a183198d5f1a6a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 3
   invincibleTime: 1.5
   isPlayer1: 1
 --- !u!114 &8355047383743616490

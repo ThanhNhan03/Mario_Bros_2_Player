@@ -140,6 +140,30 @@ public class BossChase : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("BossKiller"))
+        {
+            StartCoroutine(DestroyBoss());
+        }
+    }
+
+    private IEnumerator DestroyBoss()
+    {
+        canMove = false;
+        
+        GetComponent<Collider2D>().enabled = false;
+        
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayBGMForCurrentScene(); 
+        }
+        
+        yield return new WaitForSeconds(0.5f);
+        
+        Destroy(gameObject);
+    }
+
     public void StartChasing()
     {
         canMove = true;

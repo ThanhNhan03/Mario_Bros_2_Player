@@ -21,6 +21,7 @@ TagManager:
   - Fire
   - Boss
   - BreakableBlock
+  - BossKiller
   layers:
   - Default
   - TransparentFX
@@ -40,7 +41,7 @@ TagManager:
   - Fire
   - IgnoreCollisions
   - Boss
-  - 
+  - Brigde
   - 
   - 
   - 
