@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 176b2711c7327f3489778ba1cc1b726c
+guid: 2f4f5e9bb00579d4c818e639441e88ec
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6464869995595449900
-    second: Adobe Express - file (1)_0
-  - first:
-      213: 701328073563689374
-    second: Adobe Express - file (1)_1
+      213: 2970655064839169813
+    second: keyboard_173_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -99,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Adobe Express - file (1)_0
+      name: keyboard_173_0
       rect:
         serializedVersion: 2
-        x: 174
-        y: 400
-        width: 253
-        height: 152
+        x: 0
+        y: 0
+        width: 32
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4d9b379cdfa2846a0800000000000000
-      internalID: -6464869995595449900
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Adobe Express - file (1)_1
-      rect:
-        serializedVersion: 2
-        x: 167
-        y: 50
-        width: 266
-        height: 151
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e91d5c7ca2e9bb900800000000000000
-      internalID: 701328073563689374
+      spriteID: 51724f1da03e93920800000000000000
+      internalID: 2970655064839169813
       vertices: []
       indices: 
       edges: []
@@ -159,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      keyboard_173_0: 2970655064839169813
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

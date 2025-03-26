@@ -55,6 +55,8 @@ MonoBehaviour:
   gameOverClip: {fileID: 8300000, guid: fb4d25ae7f07d834492eda7b907616a7, type: 3}
   levelExitClip: {fileID: 8300000, guid: 07e8ced5767857441b68306093f52995, type: 3}
   warningClip: {fileID: 8300000, guid: cd50d5728cf3dbf4fbc127325f5078c3, type: 3}
+  bossExplosionSound: {fileID: 8300000, guid: 74b1544a832fcd14b9fcec25e6f4df89, type: 3}
+  victorySound: {fileID: 8300000, guid: de3db1efe8f287b499ab7aa308dcd0d4, type: 3}
 --- !u!82 &7201711498865033382
 AudioSource:
   m_ObjectHideFlags: 0
