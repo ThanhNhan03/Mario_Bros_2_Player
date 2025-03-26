@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class VictoryPanel : MonoBehaviour
+public class CreditPanel : MonoBehaviour
 {
     public float fadeInDuration = 1f;
     public float fadeOutDuration = 1f;
-    public float displayDuration = 3f;
+    public float displayDuration = 5f; 
+    public string mainMenuSceneName = "MainMenu"; // Name of your main menu scene
     public CanvasGroup canvasGroup;
-    public CreditPanel creditPanel; 
 
     private void Awake()
     {
@@ -16,29 +16,17 @@ public class VictoryPanel : MonoBehaviour
             canvasGroup = GetComponent<CanvasGroup>();
         
         canvasGroup.alpha = 0;
+        gameObject.SetActive(false);
     }
 
-    public void ShowVictoryPanel()
+    public void ShowCreditPanel()
     {
-        // Enable the GameObject first
         gameObject.SetActive(true);
-        canvasGroup.alpha = 0;
-        
-        // Find a MonoBehaviour that's active to start the coroutine
-        if (AudioManager.instance != null)
-        {
-            AudioManager.instance.StartCoroutine(VictoryPanelSequence());
-        }
-        else
-        {
-            // Fallback to starting the coroutine on this object if it's now active
-            StartCoroutine(VictoryPanelSequence());
-        }
+        StartCoroutine(FadeInCredits());
     }
 
-    private IEnumerator VictoryPanelSequence()
+    private IEnumerator FadeInCredits()
     {
-        // Fade in
         float elapsedTime = 0;
         while (elapsedTime < fadeInDuration)
         {
@@ -51,8 +39,13 @@ public class VictoryPanel : MonoBehaviour
         // Wait for display duration
         yield return new WaitForSeconds(displayDuration);
 
-        // Fade out
-        elapsedTime = 0;
+        // Start fade out
+        yield return StartCoroutine(FadeOutAndReturnToMenu());
+    }
+
+    private IEnumerator FadeOutAndReturnToMenu()
+    {
+        float elapsedTime = 0;
         while (elapsedTime < fadeOutDuration)
         {
             canvasGroup.alpha = 1 - (elapsedTime / fadeOutDuration);
@@ -60,13 +53,8 @@ public class VictoryPanel : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 0;
-        
-        gameObject.SetActive(false);
 
-        // Show credits after victory panel is done
-        if (creditPanel != null)
-        {
-            creditPanel.ShowCreditPanel();
-        }
+        // Load main menu scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene(mainMenuSceneName);
     }
 }

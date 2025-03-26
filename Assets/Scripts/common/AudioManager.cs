@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip warningClip;  
     public AudioClip bossExplosionSound;
     public AudioClip victorySound;
+    public AudioClip creditMusic; // Add this new field
 
     private AudioSource audioSource;
 
@@ -144,6 +145,15 @@ public class AudioManager : MonoBehaviour
             yield return new WaitForSeconds(bossExplosionSound.length);
         }
         PlayAudioClip(victorySound);
+        
+        // Wait for victory music to finish
+        if (victorySound != null)
+        {
+            yield return new WaitForSeconds(victorySound.length);
+        }
+        
+        // Play credit music
+        PlayAudioClip(creditMusic);
     }
 
     public void PlayOneShot(AudioClip clip)
