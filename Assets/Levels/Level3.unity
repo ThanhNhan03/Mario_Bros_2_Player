@@ -4650,6 +4650,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8426030952228449307, guid: 5325d855b8980d645834597ab59198f6, type: 3}
+      propertyPath: creditMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: e42a71bc7f4c817469f21c8831d96cf2, type: 3}
+    - target: {fileID: 8426030952228449307, guid: 5325d855b8980d645834597ab59198f6, type: 3}
       propertyPath: victorySound
       value: 
       objectReference: {fileID: 8300000, guid: de3db1efe8f287b499ab7aa308dcd0d4, type: 3}
@@ -39051,7 +39055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInDuration: 1
-  fadeOutDuration: 3
+  fadeOutDuration: 9
   displayDuration: 13
   mainMenuSceneName: MainMenu
   canvasGroup: {fileID: 1411567744}

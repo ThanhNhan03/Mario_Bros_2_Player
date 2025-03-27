@@ -20,8 +20,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip warningClip;  
     public AudioClip bossExplosionSound;
     public AudioClip victorySound;
-    public AudioClip creditMusic; // Add this new field
-
+    public AudioClip creditMusic;
     private AudioSource audioSource;
 
     private void Awake()
@@ -110,7 +109,8 @@ public class AudioManager : MonoBehaviour
         audioSource.clip = clip;
         
         // Enable looping for background music, disable for one-time sounds
-        if (clip == gameOverClip || clip == levelExitClip || clip == warningClip || clip == victorySound)
+        if (clip == gameOverClip || clip == levelExitClip || clip == warningClip || 
+            clip == victorySound || clip == creditMusic)  // Added creditMusic here
         {
             audioSource.loop = false;
         }
